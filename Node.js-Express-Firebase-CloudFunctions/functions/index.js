@@ -7,9 +7,6 @@ const app = express();
 app.use(express.json());
 
 app.post('/api/getData', (req, res) => {
-   
-    console.log("Firebase Reference" + defaultDatabase.ref('/users/').child(req.body.uid));
-    
     defaultDatabase.ref('/users/').child(req.body.uid).once('value').then(snapshot => {
         var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
         var key = (snapshot.val() && snapshot.val().key) || '4321';
@@ -22,7 +19,6 @@ app.post('/api/getData', (req, res) => {
         console.error(error);
         res.error(500);
     });
-
 });
 
 exports.app = functions.https.onRequest(app);
